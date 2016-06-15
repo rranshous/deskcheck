@@ -1,0 +1,5 @@
+simple web app which acts as chat bot backend
+
+it right now supports /deskcheck action
+
+it will send back an image which routes to predefined hosts
