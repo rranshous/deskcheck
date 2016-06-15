@@ -5,7 +5,7 @@ require 'json'
 
 $stdout.sync = true
 
-get '/employee_tools_desk.:timestamp.jpeg' do |timestamp|
+get '/current.:timestamp.jpeg' do |timestamp|
   begin
     data = ''
     path = "/tmp/#{timestamp}.jpeg"
@@ -19,7 +19,13 @@ get '/employee_tools_desk.:timestamp.jpeg' do |timestamp|
     puts "file size: #{File.size(path)}"
     File.read path
   end
+  # TODO: clean up old files, keep running 10?
 end
+
+HOSTS = {
+  'robby' => 'lilnit:5052',
+  'pingpong' => 'pingpongpi:5052'
+}
 
 post '/deskcheck' do
   message = JSON.parse(request.body.read)
@@ -27,7 +33,14 @@ post '/deskcheck' do
   content_type 'application/json'
   if message['message'].start_with?('/deskcheck')
     puts "is desk check"
-    response = "<img src='http://lilnit:5052/employee_tools_desk.#{Time.now.to_i}.jpeg'/>"
+    target = message['message'].split[1]
+    host = HOSTS[target]
+    if host.nil? || host.empty?
+      puts "target not found, noop: #{target}"
+      response = "target [#{target}] not configured"
+    else
+      response = "<img src='http://#{host}/current.#{Time.now.to_i}.jpeg'/>"
+    end
   else
     puts "is NOT desk check"
     response = nil
