@@ -35,7 +35,10 @@ post '/deskcheck' do
     puts "is desk check"
     target = message['message'].split[1]
     host = HOSTS[target]
-    if host.nil? || host.empty?
+    if target == 'help'
+      puts 'getting help'
+      response = "http://github.ove.local/rranshous/camhost"
+    elsif host.nil? || host.empty?
       puts "target not found, noop: #{target}"
       response = "target [#{target}] not configured"
     else
