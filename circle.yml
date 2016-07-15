@@ -5,14 +5,15 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker build -t docker.aws-dev.manheim.com/rranshous/camhost .
+    - docker build -t rranshous/deskcheck .
 
 test:
   override:
-    - docker run -d -p 8080:80 docker.aws-dev.manheim.com/rranshous/camhost
+    - docker run -d -p 8080:80 rranshous/deskcheck
 
 deployment:
   hub:
     branch: master
     commands:
-      - docker push docker.aws-dev.manheim.com/rranshous/camhost
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL
+      - docker push rranshous/deskcheck
