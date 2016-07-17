@@ -5,6 +5,8 @@ require 'json'
 
 $stdout.sync = true
 
+set :lock, true
+
 get '/current.:timestamp.jpeg' do |timestamp|
   begin
     data = ''
