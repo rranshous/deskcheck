@@ -39,7 +39,7 @@ post '/deskcheck' do
     host = HOSTS[target]
     if target == 'help'
       puts 'getting help'
-      response = "http://github.ove.local/rranshous/camhost"
+      response = "rranshous/camhost"
     elsif host.nil? || host.empty?
       puts "target not found, noop: #{target}"
       response = "target [#{target}] not configured"
